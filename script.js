@@ -1,4 +1,3 @@
-// Fetch news articles based on the search query
 function fetchNews() {
     const query = document.getElementById('searchQuery').value;
     const newsArticles = document.getElementById('newsArticles');
@@ -9,13 +8,18 @@ function fetchNews() {
         return;
     }
 
-    // API call to the proxy server
-    const url = `https://your-proxy-server.com/news?q=${query}`; // Update with your actual proxy server URL
+    const url = `https://your-proxy-server.com/news?q=${query}`; // Replace with actual proxy URL
+
+    console.log("Fetching news from:", url); // Log URL
 
     // Fetch news articles from the proxy server
     fetch(url)
-        .then(response => response.json())
+        .then(response => {
+            console.log("Response received:", response);
+            return response.json();
+        })
         .then(data => {
+            console.log("Parsed data:", data); // Log data
             if (data.articles && data.articles.length > 0) {
                 data.articles.forEach(article => {
                     const articleDiv = document.createElement('div');
