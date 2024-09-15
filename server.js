@@ -1,31 +1,32 @@
 const express = require('express');
-const fetch = require('node-fetch');
+const axios = require('axios');
+const cors = require('cors');
+
 const app = express();
+const port = process.env.PORT || 3000;
 
-// Your News API key
-const apiKey = '4afa6e063794448b8bd10dd27bed94ee';
+// Use CORS to allow requests from your frontend
+app.use(cors());
 
-// Enable CORS for all requests
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    next();
-});
-
-// Route to fetch news
+// Route to handle news requests
 app.get('/news', async (req, res) => {
     const query = req.query.q;
-    const url = `https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}`;
+    const apiKey = 'YOUR_NEWS_API_KEY'; // Replace with your actual NewsAPI key
+
+    // Construct the News API URL
+    const newsApiUrl = `https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}`;
 
     try {
-        const response = await fetch(url);
-        const data = await response.json();
-        res.json(data);
+        // Fetch data from the News API
+        const response = await axios.get(newsApiUrl);
+        res.json(response.data);
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch news' });
+        console.error('Error fetching news:', error);
+        res.status(500).json({ message: 'Error fetching news' });
     }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+// Start the server
+app.listen(port, () => {
+    console.log(`Proxy server is running on port ${port}`);
 });
