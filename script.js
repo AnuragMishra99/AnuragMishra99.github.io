@@ -1,6 +1,3 @@
-// Your News API key
-const apiKey = '4afa6e063794448b8bd10dd27bed94ee'; // Replace with your actual NewsAPI key
-
 // Fetch news articles based on the search query
 function fetchNews() {
     const query = document.getElementById('searchQuery').value;
@@ -12,10 +9,10 @@ function fetchNews() {
         return;
     }
 
-    // API URL to fetch news based on query
-    const url = `https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}`;
+    // API call to the proxy server
+    const url = `https://your-proxy-server.com/news?q=${query}`; // Update with your actual proxy server URL
 
-    // Fetch news articles from the API
+    // Fetch news articles from the proxy server
     fetch(url)
         .then(response => response.json())
         .then(data => {
